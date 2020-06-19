@@ -15,6 +15,7 @@ var array = new Array(); // Empty Array for all Objects
 // Creating Parent Class
 var Locations = /** @class */ (function () {
     function Locations(name, city, zip_code, address, img, type, visited) {
+        this.visited = new Date();
         this.name = name;
         this.city = city;
         this.zip_code = zip_code;
@@ -65,43 +66,57 @@ var Events = /** @class */ (function (_super) {
     return Events;
 }(Locations));
 ;
+// Function for sorting the Arrays
+function compared(a, b) {
+    if (a.visited > b.visited)
+        return 1;
+    else if (a.visited < b.visited)
+        return -1;
+    else
+        return 0;
+}
+;
 // Creating a function that prints all Locations inside the div#places
-function displayPlaces() {
+function displayPlacesAsc() {
     var arrayPlaces = new Array();
     for (var index in array) {
         if (array[index]["type"] === "place") {
             arrayPlaces.push(array[index]);
         }
     }
+    arrayPlaces.sort(compared);
     for (var i = 0; i < arrayPlaces.length; i++) {
-        $("#places").append(arrayPlaces[i].displayPlace());
+        $("#places").append("<div class=\"col-lg-3 col-md-6 col-sm-12\">\n        <div class=\"img_scale description\">\n        <a href=\"" + arrayPlaces[i].website + "\">\n        <img class=\"d-sm-none d-md-block\" src=\"" + arrayPlaces[i].img + "\" alt=\"" + arrayPlaces[i].name + "\"></a>\n        <p class=\"text-white\"><i class=\"far fa-eye text-white\"></i> " + arrayPlaces[i].visited + "</p>\n        <hr>\n        </div>\n        <div class=\"col-lg-12 col-md-1 col-sm-12 text-white\">\n        <h4 class=\"h4\">" + arrayPlaces[i].name + "</h4>\n        <p><b>Address:</b><br> " + arrayPlaces[i].address + ", <br>" + arrayPlaces[i].zip_code + " " + arrayPlaces[i].city + "</p>\n        <p><b>Food Type:</b><br> " + arrayPlaces[i].food_type + "</p>\n        <p><b>Phone:</b><br> " + arrayPlaces[i].number + "</p>\n        <p><b>Website:</b><br> <a href=\"" + arrayPlaces[i].website + "\" class=\"text-white\">" + arrayPlaces[i].website + "</a></p>\n        <hr>\n        </div>\n        </div>");
     }
 }
 ;
 // Creating a function that prints all Locations inside the div#restaurants
-function displayRestaurants() {
+function displayRestaurantsAsc() {
     var arrayRestaurants = new Array();
     for (var index in array) {
         if (array[index]["type"] === "restaurant") {
             arrayRestaurants.push(array[index]);
         }
     }
+    arrayRestaurants.sort(compared);
     for (var i = 0; i < arrayRestaurants.length; i++) {
-        $("#restaurants").append(arrayRestaurants[i].displayRestaurant());
+        $("#restaurants").append("<div class=\"col-lg-3 col-md-6 col-sm-12\">\n        <div class=\"img_scale description\">\n        <a href=\"" + arrayRestaurants[i].website + "\">\n        <img class=\"d-sm-none d-md-block\" src=\"" + arrayRestaurants[i].img + "\" alt=\"" + arrayRestaurants[i].name + "\"></a>\n        <p class=\"text-white\"><i class=\"far fa-eye text-white\"></i> " + arrayRestaurants[i].visited + "</p>\n        <hr>\n        </div>\n        <div class=\"col-lg-12 col-md-1 col-sm-12 text-white\">\n        <h4 class=\"h4\">" + arrayRestaurants[i].name + "</h4>\n        <p><b>Address:</b><br> " + arrayRestaurants[i].address + ", <br>" + arrayRestaurants[i].zip_code + " " + arrayRestaurants[i].city + "</p>\n        <p><b>Food Type:</b><br> " + arrayRestaurants[i].food_type + "</p>\n        <p><b>Phone:</b><br> " + arrayRestaurants[i].number + "</p>\n        <p><b>Website:</b><br> <a href=\"" + arrayRestaurants[i].website + "\" class=\"text-white\">" + arrayRestaurants[i].website + "</a></p>\n        <hr>\n        </div>\n        </div>");
     }
 }
 ;
 // Creating a function that prints all Locations inside the div#events
-function displayEvents() {
+function displayEventsAsc() {
     var arrayEvents = new Array();
     for (var index in array) {
         if (array[index]["type"] === "event") {
             arrayEvents.push(array[index]);
         }
     }
+    arrayEvents.sort(compared);
     for (var i = 0; i < arrayEvents.length; i++) {
-        $("#events").append(arrayEvents[i].displayEvents());
+        $("#events").append("<div class=\"col-lg-3 col-md-6 col-sm-12\">\n        <div class=\"img_scale description\">\n        <a href=\"" + arrayEvents[i].website + "\">\n        <img class=\"d-sm-none d-md-block\" src=\"" + arrayEvents[i].img + "\" alt=\"" + arrayEvents[i].name + "\"></a>\n        <p class=\"text-white\"><i class=\"far fa-eye text-white\"></i> " + arrayEvents[i].visited + "</p>\n        <hr>\n        </div>\n        <div class=\"col-lg-12 col-md-1 col-sm-12 text-white\">\n        <h4 class=\"h4\">" + arrayEvents[i].name + "</h4>\n        <p><b>Address:</b><br> " + arrayEvents[i].address + ", <br>" + arrayEvents[i].zip_code + " " + arrayEvents[i].city + "</p>\n        <p><b>When:</b><br> " + arrayEvents[i].date + ", " + arrayEvents[i].time + "</p>\n        <p><b>How much:</b><br> " + arrayEvents[i].entry + "</p>\n        <p><b>Website:</b><br><a href=\"" + arrayEvents[i].website + "\" class=\"text-white\">" + arrayEvents[i].website + "</a></p>\n        <hr>\n        </div>\n        </div>");
     }
+    ;
 }
 ;
 // creating Locations
@@ -116,7 +131,6 @@ array.push(new Restaurants("Swing Kitchen", "Vienna", "1070", "Schottenfeldgasse
 array.push(new Events("Das Sommerkonzert", "Vienna", "1010", "Musikvereinsplatz 1", "img/sommerkonzert.jpg", "event", "2020-06-19", "19. Juni 2020", "19:30", "€ 150,00", "http://musikverein.at"));
 array.push(new Events("Das Trojanische Pferd", "Vienna", "1090", "Pozellangasse 19", "img/das_trojanische_pferd.jpg", "event", "2020-06-20", "20. Juni 2020", "20:00", "€ 17,00", "http://schauspielhaus.at"));
 array.push(new Events("Feel Good Festival 2020", "Vienna", "1190", "Hohe Warte Stadion", "img/feel_good.jpg", "event", "2020-06-28", "28. Juni 2020", "09:00", "€ 29,00", "http://feelgood-festival.at/"));
-// displaying everything inside the HTML
-displayPlaces();
-displayRestaurants();
-displayEvents();
+displayPlacesAsc();
+displayRestaurantsAsc();
+displayEventsAsc();

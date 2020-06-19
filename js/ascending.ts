@@ -8,7 +8,7 @@ class Locations {
     address:"";
     img:"";
     type:"";
-    visited:"";
+    visited: any = new Date();
 
     constructor(name,city,zip_code,address,img,type,visited){
         this.name=name;
@@ -104,45 +104,103 @@ class Events extends Locations {
     }
 };
 
+// Function for sorting the Arrays
+function compared(a,b) {
+    if (a.visited > b.visited) return 1;
+    else if (a.visited < b.visited) return -1;
+    else return 0;
+};
+
 // Creating a function that prints all Locations inside the div#places
-function displayPlaces(){
-    var arrayPlaces = new Array(); 
+function displayPlacesAsc(){
+    var arrayPlaces = new Array();
     for (let index in array) {
         if (array[index]["type"]==="place") {
             arrayPlaces.push(array[index]);
         }   
     }
+    arrayPlaces.sort(compared);
     for (let i = 0; i < arrayPlaces.length; i++) {
-        $("#places").append(arrayPlaces[i].displayPlace()) 
+        $("#places").append(`<div class="col-lg-3 col-md-6 col-sm-12">
+        <div class="img_scale description">
+        <a href="${arrayPlaces[i].website}">
+        <img class="d-sm-none d-md-block" src="${arrayPlaces[i].img}" alt="${arrayPlaces[i].name}"></a>
+        <p class="text-white"><i class="far fa-eye text-white"></i> ${arrayPlaces[i].visited}</p>
+        <hr>
+        </div>
+        <div class="col-lg-12 col-md-1 col-sm-12 text-white">
+        <h4 class="h4">${arrayPlaces[i].name}</h4>
+        <p><b>Address:</b><br> ${arrayPlaces[i].address}, <br>${arrayPlaces[i].zip_code} ${arrayPlaces[i].city}</p>
+        <p><b>Food Type:</b><br> ${arrayPlaces[i].food_type}</p>
+        <p><b>Phone:</b><br> ${arrayPlaces[i].number}</p>
+        <p><b>Website:</b><br> <a href="${arrayPlaces[i].website}" class="text-white">${arrayPlaces[i].website}</a></p>
+        <hr>
+        </div>
+        </div>`) 
     }
+    
 };
 
 // Creating a function that prints all Locations inside the div#restaurants
-function displayRestaurants(){
+function displayRestaurantsAsc(){
     var arrayRestaurants = new Array(); 
     for (let index in array) {
         if (array[index]["type"]==="restaurant") {
             arrayRestaurants.push(array[index]);
         }   
     }
+    arrayRestaurants.sort(compared);
+    
     for (let i = 0; i < arrayRestaurants.length; i++) {
-        $("#restaurants").append(arrayRestaurants[i].displayRestaurant()) 
+        $("#restaurants").append(`<div class="col-lg-3 col-md-6 col-sm-12">
+        <div class="img_scale description">
+        <a href="${arrayRestaurants[i].website}">
+        <img class="d-sm-none d-md-block" src="${arrayRestaurants[i].img}" alt="${arrayRestaurants[i].name}"></a>
+        <p class="text-white"><i class="far fa-eye text-white"></i> ${arrayRestaurants[i].visited}</p>
+        <hr>
+        </div>
+        <div class="col-lg-12 col-md-1 col-sm-12 text-white">
+        <h4 class="h4">${arrayRestaurants[i].name}</h4>
+        <p><b>Address:</b><br> ${arrayRestaurants[i].address}, <br>${arrayRestaurants[i].zip_code} ${arrayRestaurants[i].city}</p>
+        <p><b>Food Type:</b><br> ${arrayRestaurants[i].food_type}</p>
+        <p><b>Phone:</b><br> ${arrayRestaurants[i].number}</p>
+        <p><b>Website:</b><br> <a href="${arrayRestaurants[i].website}" class="text-white">${arrayRestaurants[i].website}</a></p>
+        <hr>
+        </div>
+        </div>`) 
     }
 };
 
 // Creating a function that prints all Locations inside the div#events
-function displayEvents(){
+function displayEventsAsc(){
     var arrayEvents = new Array(); 
     for (let index in array) {
         if (array[index]["type"]==="event") {
             arrayEvents.push(array[index]);
         }   
     }
+    arrayEvents.sort(compared);
+    
     for (let i = 0; i < arrayEvents.length; i++) {
-        $("#events").append(arrayEvents[i].displayEvents()) 
-    }
+    $("#events").append(`<div class="col-lg-3 col-md-6 col-sm-12">
+        <div class="img_scale description">
+        <a href="${arrayEvents[i].website}">
+        <img class="d-sm-none d-md-block" src="${arrayEvents[i].img}" alt="${arrayEvents[i].name}"></a>
+        <p class="text-white"><i class="far fa-eye text-white"></i> ${arrayEvents[i].visited}</p>
+        <hr>
+        </div>
+        <div class="col-lg-12 col-md-1 col-sm-12 text-white">
+        <h4 class="h4">${arrayEvents[i].name}</h4>
+        <p><b>Address:</b><br> ${arrayEvents[i].address}, <br>${arrayEvents[i].zip_code} ${arrayEvents[i].city}</p>
+        <p><b>When:</b><br> ${arrayEvents[i].date}, ${arrayEvents[i].time}</p>
+        <p><b>How much:</b><br> ${arrayEvents[i].entry}</p>
+        <p><b>Website:</b><br><a href="${arrayEvents[i].website}" class="text-white">${arrayEvents[i].website}</a></p>
+        <hr>
+        </div>
+        </div>`
+    )
+    };
 };
-
 
 // creating Locations
 array.push(new Locations("St. Charles Church","Vienna","1010","Karlsplatz 1","img/st_charles_church.jpg","place","2004-04-28 "));
@@ -160,8 +218,6 @@ array.push(new Events("Das Trojanische Pferd","Vienna","1090","Pozellangasse 19"
 array.push(new Events("Feel Good Festival 2020","Vienna","1190","Hohe Warte Stadion","img/feel_good.jpg","event","2020-06-28","28. Juni 2020","09:00","€ 29,00","http://feelgood-festival.at/"));
 
 
-// displaying everything inside the HTML
-displayPlaces();
-displayRestaurants();
-displayEvents();
-
+displayPlacesAsc()
+displayRestaurantsAsc()
+displayEventsAsc()
